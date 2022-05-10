@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Support\Collection;
 
 class Pusher implements LoggerAwareInterface, PusherInterface
 {
@@ -336,6 +337,8 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     {
         if (is_string($channels) === true) {
             $channels = [$channels];
+        } elseif ($channels instanceof Collection) {
+            $channels = $channels->all();
         }
 
         $this->validate_channels($channels);
